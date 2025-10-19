@@ -1,5 +1,21 @@
 [
   {
+    "id": "S60659234427",
+    "name": "rizza",
+    "age": 19,
+    "course": "bsge",
+    "year": 2,
+    "gender": "Female"
+  },
+  {
+    "id": "S45776602731",
+    "name": "Test",
+    "age": 21,
+    "course": "BSIT",
+    "year": 3,
+    "gender": "Male"
+  },
+  {
     "id": "S41830112137",
     "name": "Ziun",
     "age": 4,
@@ -20,7 +36,7 @@
     "name": "Maxine",
     "age": 20,
     "course": "BSFT",
-    "year": "3",
+    "year": 3,
     "gender": "Female"
   },
   {
@@ -28,7 +44,7 @@
     "name": "Regie",
     "age": 21,
     "course": "BSIT",
-    "year": "3",
+    "year": 3,
     "gender": "Male"
   },
   {
@@ -36,7 +52,7 @@
     "name": "Celjian",
     "age": 20,
     "course": "BSIT",
-    "year": "3",
+    "year": 3,
     "gender": "Male"
   },
   {
@@ -44,7 +60,7 @@
     "name": "Renz",
     "age": 18,
     "course": "BSIT",
-    "year": "3",
+    "year": 3,
     "gender": "Male"
   }
 ]

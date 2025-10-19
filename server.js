@@ -2,7 +2,7 @@ const express = require('express');
 const fs = require('fs');
 const path = require('path');
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3301;
 const DATA_FILE = path.join(__dirname, 'students.json');
 
 app.use(express.json());
@@ -28,10 +28,20 @@ function writeData(arr){
   }
 }
 
+app.use(express.json());
+
+// API routes must come BEFORE static file serving
 // GET /students
 app.get('/students', (req, res) => {
-  const data = readData();
-  res.json(data);
+  console.log('GET /students request received');
+  try {
+    const data = readData();
+    console.log('Data read successfully:', data.length, 'students');
+    res.json(data);
+  } catch (error) {
+    console.error('Error in GET /students:', error);
+    res.status(500).json({error: 'Internal server error'});
+  }
 });
 
 // POST /students
@@ -80,4 +90,15 @@ app.delete('/students/:id', (req, res) => {
   res.json({ok:true});
 });
 
+app.use(express.static('.'));
+
 app.listen(PORT, ()=> console.log('Server running on port', PORT));
+
+// Handle uncaught exceptions to prevent server crashes
+process.on('uncaughtException', (err) => {
+  console.error('Uncaught Exception:', err);
+});
+
+process.on('unhandledRejection', (reason, promise) => {
+  console.error('Unhandled Rejection at:', promise, 'reason:', reason);
+});

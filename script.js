@@ -1,8 +1,29 @@
 const API_BASE = '/students';
 
+// Check if server is running
+async function checkServerConnection() {
+  try {
+    const res = await fetch('/students', { method: 'GET' });
+    return res.ok;
+  } catch (error) {
+    console.error('Server connection check failed:', error);
+    return false;
+  }
+}
+
 async function fetchStudents() {
   const res = await fetch(API_BASE);
-  if (!res.ok) throw new Error('Failed to fetch students');
+  if (!res.ok) {
+    const errorText = await res.text();
+    throw new Error(`Failed to fetch students (${res.status}): ${errorText}`);
+  }
+  
+  const contentType = res.headers.get('content-type');
+  if (!contentType || !contentType.includes('application/json')) {
+    const responseText = await res.text();
+    throw new Error(`Expected JSON response but got: ${responseText.substring(0, 100)}...`);
+  }
+  
   return await res.json();
 }
 
@@ -12,6 +33,18 @@ async function addStudent(payload) {
     headers: {'Content-Type':'application/json'},
     body: JSON.stringify(payload)
   });
+  
+  if (!res.ok) {
+    const errorText = await res.text();
+    throw new Error(`Server error (${res.status}): ${errorText}`);
+  }
+  
+  const contentType = res.headers.get('content-type');
+  if (!contentType || !contentType.includes('application/json')) {
+    const responseText = await res.text();
+    throw new Error(`Expected JSON response but got: ${responseText.substring(0, 100)}...`);
+  }
+  
   return await res.json();
 }
 
@@ -54,6 +87,13 @@ let filteredStudents = [];
 
 async function loadAndRender() {
   try{
+    // Check server connection first
+    const serverRunning = await checkServerConnection();
+    if (!serverRunning) {
+      showMessage('Server is not running. Please start the server with: node server.js', true);
+      return;
+    }
+    
     allStudents = await fetchStudents();
     filteredStudents = [...allStudents];
     renderStudents(filteredStudents);
@@ -110,6 +150,13 @@ document.addEventListener('DOMContentLoaded', ()=>{
     if (payload.year < 1 || payload.year > 5) { showMessage('Year must be between 1 and 5', true); return; }
     if (!payload.gender) { showMessage('Please select a gender', true); return; }
     try {
+      // Check server connection first
+      const serverRunning = await checkServerConnection();
+      if (!serverRunning) {
+        showMessage('Server is not running. Please start the server with: node server.js', true);
+        return;
+      }
+      
       const added = await addStudent(payload);
       showMessage('Student added: ' + (added.id || 'OK'));
       el('#studentForm').reset();
