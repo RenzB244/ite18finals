@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>SIMS - Student Information Management System</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="container">
+    <h1>Student Information Management<br><span class="subtitle">System (SIMS)</span></h1>
+    <section class="form-section">
+      <h2>Add Student</h2>
+      <form id="studentForm">
+        <div class="form-row">
+          <label>Name <input type="text" id="name" required /></label>
+          <label>Age <input type="number" id="age" required min="1" /></label>
+          <label>Course <input type="text" id="course" required /></label>
+        </div>
+        <div class="form-row">
+          <label>Year <input type="number" id="year" required min="1" max="5" /></label>
+          <label>Gender
+            <select id="gender" required>
+              <option value="">--</option>
+              <option>Male</option>
+              <option>Female</option>
+              <option>Other</option>
+            </select>
+          </label>
+        </div>
+        <div class="actions">
+          <button type="submit">Add</button>
+          <button type="button" id="resetBtn">Reset</button>
+        </div>
+      </form>
+    </section>
+
+    <section class="controls" style="display: none;">
+      <input id="search" placeholder="Search by name or course..." />
+      <button id="refresh">Refresh</button>
+      <label>Show:
+        <select id="limitSelect">
+          <option value="20">20</option>
+          <option value="50" selected>50</option>
+          <option value="all">All</option>
+        </select>
+      </label>
+    </section>
+
+    <section class="table-section">
+      <h2>Students</h2>
+      <div id="message" class="message"></div>
+      <table id="studentsTable">
+        <thead>
+          <tr>
+            <th>ID <span class="sort-indicator">▲</span></th>
+            <th>Name <span class="sort-indicator">▲</span></th>
+            <th>Age <span class="sort-indicator">▲</span></th>
+            <th>Course <span class="sort-indicator">▲</span></th>
+            <th>Year <span class="sort-indicator">▲</span></th>
+            <th>Gender <span class="sort-indicator">▲</span></th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </section>
+
+    <section class="search-section">
+      <h2>Search Students</h2>
+      <div class="search-form">
+        <label>Search by
+          <select id="searchType">
+            <option value="">All Students</option>
+            <option value="name">Name</option>
+            <option value="course">Course</option>
+            <option value="gender">Gender</option>
+          </select>
+        </label>
+        <div class="search-buttons">
+          <button type="button" id="searchBtn">Search</button>
+          <button type="button" id="clearSearchBtn">Clear</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,50 @@
+[
+  {
+    "id": "S41830112137",
+    "name": "Ziun",
+    "age": 4,
+    "course": "BSCS",
+    "year": 2,
+    "gender": "Male"
+  },
+  {
+    "id": "S41705477326",
+    "name": "Nexus",
+    "age": 7,
+    "course": "BSIS",
+    "year": 1,
+    "gender": "Male"
+  },
+  {
+    "id": "S1655",
+    "name": "Maxine",
+    "age": 20,
+    "course": "BSFT",
+    "year": "3",
+    "gender": "Female"
+  },
+  {
+    "id": "S1717",
+    "name": "Regie",
+    "age": 21,
+    "course": "BSIT",
+    "year": "3",
+    "gender": "Male"
+  },
+  {
+    "id": "S1919",
+    "name": "Celjian",
+    "age": 20,
+    "course": "BSIT",
+    "year": "3",
+    "gender": "Male"
+  },
+  {
+    "id": "S1354",
+    "name": "Renz",
+    "age": 18,
+    "course": "BSIT",
+    "year": "3",
+    "gender": "Male"
+  }
+]

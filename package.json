@@ -1,0 +1,16 @@
+{
+  "name": "ite18finals",
+  "version": "1.0.0",
+  "description": "This project implements a simple Student Information Management System (SIMS) with a plain HTML/CSS/JS frontend and a Node.js (Express) backend that stores data in `students.json`.",
+  "main": "script.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^5.1.0"
+  }
+}
