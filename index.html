@@ -83,6 +83,28 @@
         </div>
       </div>
     </section>
+
+    <!-- LLM Chat Section -->
+    <section class="llm-section">
+      <h2>Ask the LLM about Students</h2>
+      <p class="llm-hint">
+        Examples: "How many 3rd-year students are stored?", "List students in BSIT.", "What is the average age?",
+        "Give a summary of total students per course."
+      </p>
+      <div id="llmChatBox" class="llm-chat-box">
+        <div id="llmMessages" class="llm-messages" aria-live="polite"></div>
+        <div class="llm-input-row">
+          <input
+            id="llmInput"
+            type="text"
+            placeholder="Type your question about the student data..."
+            autocomplete="off"
+          />
+          <button id="llmSendBtn" type="button">Ask LLM</button>
+        </div>
+        <div id="llmStatus" class="llm-status" aria-live="polite"></div>
+      </div>
+    </section>
   </main>
 
   <script src="script.js"></script>

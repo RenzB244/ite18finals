@@ -1,5 +1,13 @@
 [
   {
+    "id": "S88327821545",
+    "name": "carlos",
+    "age": 89,
+    "course": "BSIT",
+    "year": 3,
+    "gender": "Other"
+  },
+  {
     "id": "S60659234427",
     "name": "rizza",
     "age": 19,

@@ -1,4 +1,5 @@
 const API_BASE = '/students';
+const LLM_API_ENDPOINT = '/llm/chat';
 
 // Check if server is running
 async function checkServerConnection() {
@@ -179,4 +180,90 @@ document.addEventListener('DOMContentLoaded', ()=>{
       else showMessage('Failed to delete ' + id, true);
     }
   });
+
+  // --- LLM chat wiring ---
+  const llmInput = el('#llmInput');
+  const llmSendBtn = el('#llmSendBtn');
+  const llmMessages = el('#llmMessages');
+  const llmStatus = el('#llmStatus');
+
+  async function sendLlmQuestion() {
+    if (!llmInput || !llmMessages || !llmStatus) return;
+
+    const question = llmInput.value.trim();
+    if (!question) {
+      llmStatus.textContent = 'Please type a question first.';
+      return;
+    }
+
+    // Clear status and render user message
+    llmStatus.textContent = '';
+    appendLlmMessage('user', question);
+    llmInput.value = '';
+
+    // Show loading status
+    llmStatus.textContent = 'Thinking... (contacting LLM based on current student data)';
+    llmSendBtn.disabled = true;
+
+    try {
+      const res = await fetch(LLM_API_ENDPOINT, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: question })
+      });
+
+      if (!res.ok) {
+        const errorBody = await res.json().catch(() => ({}));
+        const errorMsg = errorBody.error || `LLM request failed with status ${res.status}`;
+        appendLlmMessage('error', errorMsg);
+        llmStatus.textContent = 'The LLM could not answer your question. Please try again.';
+        return;
+      }
+
+      const data = await res.json();
+      const answer = data.answer || 'No answer returned from LLM.';
+      appendLlmMessage('assistant', answer);
+      llmStatus.textContent = '';
+    } catch (err) {
+      console.error('LLM request error:', err);
+      appendLlmMessage('error', 'Network or server error while contacting the LLM.');
+      llmStatus.textContent = 'Network or server error. Please check if the backend is running.';
+    } finally {
+      llmSendBtn.disabled = false;
+    }
+  }
+
+  function appendLlmMessage(role, text) {
+    if (!llmMessages) return;
+    const wrapper = document.createElement('div');
+    wrapper.className = `llm-message llm-${role}`;
+
+    const label = document.createElement('div');
+    label.className = 'llm-message-label';
+    label.textContent =
+      role === 'user' ? 'You' :
+      role === 'assistant' ? 'LLM' :
+      'System';
+
+    const body = document.createElement('div');
+    body.className = 'llm-message-body';
+    body.textContent = text;
+
+    wrapper.appendChild(label);
+    wrapper.appendChild(body);
+    llmMessages.appendChild(wrapper);
+    llmMessages.scrollTop = llmMessages.scrollHeight;
+  }
+
+  if (llmSendBtn) {
+    llmSendBtn.addEventListener('click', sendLlmQuestion);
+  }
+  if (llmInput) {
+    llmInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        sendLlmQuestion();
+      }
+    });
+  }
 });
